@@ -1,0 +1,148 @@
+<!-- 
+    https://www.npmjs.com/package/http-server
+    https://zinoui.com/blog/cross-domain-ajax-request
+    https://stackoverflow.com/questions/19743396/cors-cannot-use-wildcard-in-access-control-allow-origin-when-credentials-flag-i
+    Soltuion: https://medium.com/@pdrasko/aws-api-gateway-and-multiple-cors-origins-55bf224f37a5
+ -->
+<html>
+    <link href="./css/jquery-ui.css" rel="stylesheet">
+
+    <script type="text/javascript" src="./js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="./js/jquery-ui.min.js"></script>
+
+    <style>
+        table, th, td {
+          border: 0px solid black;
+        }
+    </style>
+
+    <body>
+    <table>
+        <tr>
+            <td>
+                <label for="url">URL</label>
+            </td>
+            <td>
+                <input id="url" size=80 value="https://{server}.execute-api.us-east-1.amazonaws.com/latest/{resource path}/"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="api-key">API Key</label>
+            </td>
+            <td>
+                <input id="api-key" size=80 value=""/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="token">Bearer Token</label>
+            </td>
+            <td>
+                <textarea id="token" style="width: 600; height: 200;"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="callEngine">Use Engine</label>
+            </td>
+            <td>
+                <select id="callEngine">
+                    <Option value="1">Ajax</Option>
+                    <Option value="2">Fetch</Option>
+                    <Option value="3">XMLHttpRequest</Option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td COLSPAN=2>
+                <button onclick="corsCall()">GET</button>
+            </td>
+        </tr>
+    </table>
+    <hr>
+    <div id="results"></div>
+</body>
+
+    <script type="text/javascript">
+        function running() {
+            $("#results").progressbar({
+                value: 100
+            });
+        }
+
+        function idle(p_msg) {
+            $("#results").progressbar({
+                value: false
+            });
+            $('#results').text(p_msg);
+        }
+
+        function corsCall() {
+            console.log("starting call using " + $('#callEngine').val());
+            running();
+
+            switch ($('#callEngine').val()) {
+                case '1' :
+                    makeAjaxCall();
+                    break;
+                case '2' :
+                    makeFetchCall();
+                    break;
+                case '3' : 
+                    makeXMLHttpRequestCall();
+                    break;
+                default: 
+            }
+        }
+
+        function makeAjaxCall() {
+            var settings = {
+              "url": $("#url").val(),
+              "method": "GET",
+              "contentType": "application/json",
+              "timeout": 0,
+              "headers": {
+                "x-api-key": $("#api-key").val(),
+                "Authorization": "Bearer " + $("#token").val()
+              },
+              "crossDomain": true,
+            //   "xhrFields": {
+            //       "withCredentials": true,
+            //   },
+            };
+
+            $.ajax(settings).done(function (response) {
+              console.log(response);
+              idle(JSON.stringify(response));
+            });
+        }
+
+        function makeFetchCall() {
+            var myHeaders = new Headers();
+            myHeaders.append("x-api-key", $("#api-key").val());
+            myHeaders.append("Authorization", "Bearer " + $("#token").val());
+
+            fetch($("#url").val(), {
+                headers: myHeaders
+            }).then(function (response) {
+                return response.json();
+            }).then(function (json) {
+                console.log(json);
+                idle(JSON.stringify(json));
+            });
+        }
+
+        function makeXMLHttpRequestCall() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", $("#url").val(), true);
+            xhr.setRequestHeader("x-api-key", $("#api-key").val());
+            xhr.setRequestHeader("Authorization", "Bearer " + $("#token").val());
+            xhr.onload = function () {
+                console.log(xhr.responseText);
+                idle(xhr.responseText);
+            };
+            xhr.send();
+        }
+    </script>
+</html>
