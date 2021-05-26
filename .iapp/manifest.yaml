@@ -19,11 +19,11 @@ catalog:
   # (Required) The name of the department that owns the resource
   department: tech
   # (Optional) The email address of the support team to contact
-  support_email: dsietz@iapp.org
+  support_email: gudy@iapp.org
 # Metadata information about the resource
 code:
   # (Required) The location (url) where to find the source code
-  sourcecode_url: https://github.com/PrivacyAssociation/iapp-example-infra
+  sourcecode_url: https://github.com/PrivacyAssociation/iapp-admin-portal
 # (Optional) A list (array) of template files (including extension) to build and deploy in the order specified
 queue:
   - application-iapp-admin-portal.yaml
