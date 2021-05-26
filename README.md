@@ -1,4 +1,4 @@
-# iapp-admin-portal-infra
+# iapp-portal-infra
 ![Production CFT Project](https://github.com/PrivacyAssociation/cft-project/workflows/Production%20Pipeline/badge.svg)
 
 ![Nonproduction CFT Project](https://github.com/PrivacyAssociation/cft-project/workflows/Nonproduction%20Pipeline/badge.svg)

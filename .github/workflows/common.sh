@@ -46,7 +46,7 @@ assume_role() {
 #
 # Paramters
 # $1 = The build number
-# $2 = The name of the template file to build located in the build directory, (e.g.: iapp-admin-portal-infra.yaml)
+# $2 = The name of the template file to build located in the build directory, (e.g.: iapp-portal-infra.yaml)
 # $3 = The release the artifact is related with, (e.g.: 0.1.19)
 #
 build_artifact_template() {
@@ -215,7 +215,7 @@ default_template_queue() {
 # This function deploys a Cloudformation Template
 #
 # Parameters
-# $1 = The name of the template file, (e.g.: iapp-admin-portal-infra.yaml)
+# $1 = The name of the template file, (e.g.: iapp-portal-infra.yaml)
 # $2 = The release the artifact is related with, (e.g.: 0.1.19)
 # $3 = The name of the build level (a.k.a. artifact maturity). [Options: pre-alpha or alpha]
 #
@@ -781,7 +781,7 @@ trim_double_quotes() {
 #
 # Parameters
 # $1 = The aws region to deploy to
-# $2 = The name of the template file, (e.g.: iapp-admin-portal-infra.yaml)
+# $2 = The name of the template file, (e.g.: iapp-portal-infra.yaml)
 # $3 = The release the artifact is related with, (e.g.: 0.1.19)
 # $4 = The name of the build level (a.k.a. artifact maturity). [Options: pre-alpha or alpha]
 #
