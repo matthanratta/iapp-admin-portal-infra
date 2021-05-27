@@ -34,7 +34,7 @@ catalog:
   support_email: pipeline-support@iapp.org
 code:
   # (Required) The location (url) where to find the source code
-  sourcecode_url: https://github.com/PrivacyAssociation/cft-project
+  sourcecode_url: https://github.com/PrivacyAssociation/iapp-admin-portal
 # (Optional) A list (array) of template files (including extension) to build and deploy in the order specified
 queue:
   - template3.yaml
