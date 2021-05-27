@@ -595,7 +595,7 @@ Resources:
                   - ReleaseLvl
       Environment:
         Variables:
-          PORTAL_ENV_VAR: "Hello there"
+          ENV_VAR: "Hello there"
           DOMAIN: 
             Ref: pDomainName
           DB_TABLE_NAME:
