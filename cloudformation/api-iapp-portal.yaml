@@ -95,6 +95,14 @@ Parameters:
     Description: 'The AWS arn of the Cognito User Pool to use for authorization to the API' 
     Type: String 
     Default: 'arn:aws:cognito-idp:us-east-1:932197367731:userpool/us-east-1_xnWubxCLi'  
+  pAllowHeaders:
+    Description: 'The value for the Access-Control-Allow-Headers response header' 
+    Type: String 
+    Default: 'Content-Type,Authorization,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Origin,x-api-key' 
+  pAllowOrigin:
+    Description: 'The value for the Access-Control-Allow-Origin response header, (default = https://iapp.org)' 
+    Type: String 
+    Default: '*' 
   pExternalEndpoint:
     Description: 'Indicates if the API Gateway endpoints is external facing, (true or false)' 
     Type: String 
@@ -132,6 +140,83 @@ Globals:
     Timeout: 30
     MemorySize: 128
 Resources:  
+  # database
+  rDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: 
+        !Sub "${pOrganization}-${pApplication}-${pEnvironment}-portal"      
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: _id
+        AttributeType: S
+      - AttributeName: field1
+        AttributeType: S
+      - AttributeName: field2
+        AttributeType: N
+      - AttributeName: field3
+        AttributeType: B
+      KeySchema:
+      - AttributeName: _id
+        KeyType: HASH
+      GlobalSecondaryIndexes:
+      - IndexName: idx_field1
+        KeySchema:
+        - AttributeName: field1
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL 
+      - IndexName: idx_field2
+        KeySchema:
+        - AttributeName: field2
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL   
+      - IndexName: idx_field3
+        KeySchema:
+        - AttributeName: field3
+          KeyType: HASH
+        Projection:
+          ProjectionType: ALL   
+      SSESpecification:
+        SSEEnabled: True
+      Tags: 
+        - 
+          Key: "Name"
+          Value:
+            !Sub "${pOrganization}-${pApplication}-${pEnvironment}-portal"
+        - 
+          Key: "iapp-organization"
+          Value: 
+            !Ref pOrganization
+        - 
+          Key: "iapp-portfolio"
+          Value: 
+            !Ref pPortfolio
+        - 
+          Key: "iapp-product"
+          Value: 
+            !Ref pProduct
+        - 
+          Key: "iapp-application"
+          Value: 
+            !Ref pApplication
+        - 
+          Key: "iapp-component"
+          Value:
+            !Ref pComponent
+        - 
+          Key: "iapp-department"
+          Value:
+            !Ref pDepartment
+        - 
+          Key: "iapp-environment"
+          Value:
+            !Ref pEnvironment
+        - 
+          Key: "iapp-support-email"
+          Value:
+            !Ref pSupportEmail 
   # API 
   rRestApi:
     Type: AWS::Serverless::Api
@@ -166,49 +251,49 @@ Resources:
         # Important! Add this line, or you'll have a bad time. 
         # The CORS preflight OPTIONS request will fail. 
         AddDefaultAuthorizerToCorsPreflight: false
-        # ResourcePolicy:
-        #   CustomStatements: [
-        #     {
-        #       "Sid": "Cross Account Roles Access",
-        #       "Effect": "Allow",
-        #       "Principal": "*",
-        #       "Action": "execute-api:Invoke",
-        #       "Resource": [
-        #           "execute-api:/latest/*/*"
-        #       ],
-        #       "Condition": {
-        #         "StringLike": {
-        #             "aws:SourceArn": [
-        #               "arn:aws:iam::759021155229:role/${*}",
-        #               "arn:aws:iam::118141163352:role/${*}",
-        #               "arn:aws:iam::829225102042:role/${*}",
-        #               "arn:aws:iam::237529788575:role/${*}",
-        #               "arn:aws:iam::620738768371:role/${*}",
-        #               "arn:aws:iam::759021155229:role/${*}",
-        #               "arn:aws:iam::969496774796:role/${*}",
-        #               "arn:aws:iam::845665128728:role/${*}"
-        #             ]
-        #         }
-        #       }
-        #     },
-        #     {
-        #       "Sid": "VPN Access",
-        #       "Effect": "Allow",
-        #       "Principal": "*",
-        #       "Action": "execute-api:Invoke",
-        #       "Resource": [
-        #           "execute-api:/latest/*/*"
-        #       ],
-        #       "Condition": {
-        #         "IpAddress": {
-        #             "aws:SourceIp": [
-        #               "66.211.133.188/32",
-        #               "18.232.223.115/32"
-        #             ]
-        #         }
-        #       }
-        #     }
-        #   ]        
+        ResourcePolicy:
+          CustomStatements: [
+            {
+              "Sid": "Cross Account Roles Access",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": "execute-api:Invoke",
+              "Resource": [
+                  "execute-api:/latest/*/*"
+              ],
+              "Condition": {
+                "StringLike": {
+                    "aws:SourceArn": [
+                      "arn:aws:iam::759021155229:role/${*}",
+                      "arn:aws:iam::118141163352:role/${*}",
+                      "arn:aws:iam::829225102042:role/${*}",
+                      "arn:aws:iam::237529788575:role/${*}",
+                      "arn:aws:iam::620738768371:role/${*}",
+                      "arn:aws:iam::759021155229:role/${*}",
+                      "arn:aws:iam::969496774796:role/${*}",
+                      "arn:aws:iam::845665128728:role/${*}"
+                    ]
+                }
+              }
+            },
+            {
+              "Sid": "VPN Access",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": "execute-api:Invoke",
+              "Resource": [
+                  "execute-api:/latest/*/*"
+              ],
+              "Condition": {
+                "IpAddress": {
+                    "aws:SourceIp": [
+                      "66.211.133.188/32",
+                      "18.232.223.115/32"
+                    ]
+                }
+              }
+            }
+          ]        
         UsagePlan:
           UsagePlanName: 
             !Sub "Normal Usage Plan for ${pApplication}"
@@ -262,42 +347,64 @@ Resources:
               Value:
                 !Ref pSupportEmail 
       Cors:
-        AllowOrigin: "'*'"
-        AllowHeaders: '''Content-Type,X-Amz-Date,X-Api-Key,Authorization,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Origin,X-Requested-With'''
+        #AllowCredentials: true
+        AllowMethods: "'OPTIONS,GET,POST,PUT,DELETE'"
+        AllowOrigin:
+          Fn::Sub: "'${pAllowOrigin}'"
+        AllowHeaders: 
+          Fn::Sub: "'${pAllowHeaders}'"
         MaxAge: '''3600'''
-      AccessLogSetting:
-       DestinationArn:
-          !GetAtt rAPILogGrpApi.Arn
+      AccessLogSetting: 
+       DestinationArn: 
+         !GetAtt rAPILogGrpApi.Arn
        Format: >-
-          {"requestId":"$context.requestId", "ip": "$context.identity.sourceIp",
-          "caller":"$context.identity.caller",
-          "user":"$context.identity.user","requestTime":"$context.requestTime",
-          "eventType":"$context.eventType","routeKey":"$context.routeKey",
-          "status":"$context.status","connectionId":"$context.connectionId"}       
+         {"requestId":"$context.requestId", "ip": "$context.identity.sourceIp",
+         "caller":"$context.identity.caller",
+         "user":"$context.identity.user","requestTime":"$context.requestTime",
+         "eventType":"$context.eventType","routeKey":"$context.routeKey",
+         "status":"$context.status","connectionId":"$context.connectionId"}          
       GatewayResponses:
         DEFAULT_4XX:
           ResponseParameters:
             Headers:
-              Access-Control-Allow-Origin: "'*'"
-              Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,X-Api-Key,Authorization,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Origin,X-Requested-With'''
+              Access-Control-Allow-Origin:
+                Fn::Sub: "'${pAllowOrigin}'"
+              Access-Control-Allow-Headers:
+                Fn::Sub: "'${pAllowHeaders}'"
         DEFAULT_5XX:
           ResponseParameters:
             Headers:
-              Access-Control-Allow-Origin: "'*'"
-              Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,X-Api-Key,Authorization,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Origin,X-Requested-With'''
+              Access-Control-Allow-Origin:
+                Fn::Sub: "'${pAllowOrigin}'"
+              Access-Control-Allow-Headers:
+                Fn::Sub: "'${pAllowHeaders}'"
+        MISSING_AUTHENTICATION_TOKEN:
+          ResponseParameters:
+            Headers:
+              Access-Control-Allow-Origin:
+                Fn::Sub: "'${pAllowOrigin}'"
+              Access-Control-Allow-Headers:
+                Fn::Sub: "'${pAllowHeaders}'"
+          StatusCode: "401"
+          ResponseTemplates:
+            application/json: '{"message": "missing token" }'
         EXPIRED_TOKEN:
           ResponseParameters:
             Headers:
-              Access-Control-Allow-Origin: "'*'"
-              Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,X-Api-Key,Authorization,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Origin,X-Requested-With'''
+              Access-Control-Allow-Origin:
+                Fn::Sub: "'${pAllowOrigin}'"
+              Access-Control-Allow-Headers: 
+                Fn::Sub: "'${pAllowHeaders}'"
           StatusCode: "401"
           ResponseTemplates:
             application/json: '{"message": "expired token" }'
         INVALID_API_KEY:
           ResponseParameters:
             Headers:
-              Access-Control-Allow-Origin: "'*'"
-              Access-Control-Allow-Headers: '''Content-Type,X-Amz-Date,X-Api-Key,Authorization,Access-Control-Allow-Headers,Access-Control-Allow-Origin,Access-Control-Allow-Methods,Origin,X-Requested-With'''
+              Access-Control-Allow-Origin:
+                Fn::Sub: "'${pAllowOrigin}'"
+              Access-Control-Allow-Headers:
+                Fn::Sub: "'${pAllowHeaders}'"
           StatusCode: "456"
           ResponseTemplates:
             application/json: '{"message": "invalid api key" }'
@@ -354,8 +461,6 @@ Resources:
     DependsOn:
       - rRestApi
       - rWAF
-      - rGetLambdaApi1PermissionStage 
-      - rReptLambdaApi1PermissionStage
     Type: AWS::WAFv2::WebACLAssociation
     Condition: IsExternalEndpoint
     Properties: 
@@ -490,7 +595,7 @@ Resources:
                   - ReleaseLvl
       Environment:
         Variables:
-          ENV_VAR: "Hello there"
+          IAPP_PORTAL_ENV_VAR: "Hello there"
           DOMAIN: 
             Ref: pDomainName
           DB_TABLE_NAME:
