@@ -461,6 +461,8 @@ Resources:
     DependsOn:
       - rRestApi
       - rWAF
+      - rGetLambdaApi1PermissionStage 
+      - rReptLambdaApi1PermissionStage
     Type: AWS::WAFv2::WebACLAssociation
     Condition: IsExternalEndpoint
     Properties: 
