@@ -1,8 +1,7 @@
-# iapp-portal-template.yaml
+# application-iapp-portal2.yaml
 
 ## Resource Types
 + [Custom::String](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cfn-customresource.html)
-
 
 ## Template Parameters
 | Parameter                 | Type    | Description                                                                                                 |
@@ -16,6 +15,7 @@
 | pEnvironment              | String  | The name of the environment in which the resource is running (e.g.: sandbox, development, test, production) |
 | pSupportEmail             | String  | The email address of the support team to contact                                                            |
 | pSourceCodeURL            | String  | The location where the source code resides                                                                  |
+| pUserPoolId               | String  | The id of the Cognito User Pool to authenticate the application                                             |
 
 ## Exports
 | Name                                                     | Description                                     |
