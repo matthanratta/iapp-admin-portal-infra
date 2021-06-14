@@ -70,11 +70,11 @@ Parameters:
     Type: String 
     Default: iapp-artifacts-repository
   pArtifactName:
-    Description: 'The name of the artifact that is the source code for the functions, (e.g.: iapp-portal_serverless.zip)'
+    Description: 'The name of the artifact that is the source code for the functions, (e.g.: iapp-admportal_serverless.zip)'
     Type: String
     MinLength: 1
     MaxLength: 80
-    Default: 'iapp-portal_serverless.zip'
+    Default: 'iapp-admportal_serverless.zip'
   pDomainName:
     Description: 'The domain name to use for the API service. This is optional adn can be left empty.'
     Type: String
@@ -145,7 +145,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: 
-        !Sub "${pOrganization}-${pApplication}-${pEnvironment}-portal"      
+        !Sub "${pOrganization}-${pApplication}-${pEnvironment}-example"      
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
       - AttributeName: _id
@@ -184,7 +184,7 @@ Resources:
         - 
           Key: "Name"
           Value:
-            !Sub "${pOrganization}-${pApplication}-${pEnvironment}-portal"
+            !Sub "${pOrganization}-${pApplication}-${pEnvironment}-example"
         - 
           Key: "iapp-organization"
           Value: 
@@ -595,7 +595,7 @@ Resources:
                   - ReleaseLvl
       Environment:
         Variables:
-          IAPP_PORTAL_ENV_VAR: "Hello there"
+          PORTAL_ENV_VAR: "Hello there"
           DOMAIN: 
             Ref: pDomainName
           DB_TABLE_NAME:
