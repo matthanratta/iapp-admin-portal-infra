@@ -70,11 +70,11 @@ Parameters:
     Type: String 
     Default: iapp-artifacts-repository
   pArtifactName:
-    Description: 'The name of the artifact that is the source code for the functions, (e.g.: iapp-admportal_serverless.zip)'
+    Description: 'The name of the artifact that is the source code for the functions, (e.g.: admin-portal_serverless.zip)'
     Type: String
     MinLength: 1
     MaxLength: 80
-    Default: 'iapp-admportal_serverless.zip'
+    Default: 'admin-portal_serverless.zip'
   pDomainName:
     Description: 'The domain name to use for the API service. This is optional adn can be left empty.'
     Type: String

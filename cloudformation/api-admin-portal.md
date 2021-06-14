@@ -1,4 +1,4 @@
-# api-iapp-admportal.yaml
+# api-admin-portal.yaml
 
 ## Resource Types
 + [AWS::ApiGateway::Deployment](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html)

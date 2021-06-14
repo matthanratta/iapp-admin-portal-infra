@@ -1,4 +1,4 @@
-# application-iapp-admportal.yaml
+# application-admin-portal.yaml
 
 ## Resource Types
 + [Custom::String](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cfn-customresource.html)
