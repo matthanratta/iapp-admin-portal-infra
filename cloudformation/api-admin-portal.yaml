@@ -145,7 +145,7 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: 
-        !Sub "${pOrganization}-${pApplication}-${pEnvironment}-example"      
+        !Sub "${pOrganization}-${pApplication}-${pEnvironment}-portal"      
       BillingMode: PAY_PER_REQUEST
       AttributeDefinitions:
       - AttributeName: _id
@@ -184,7 +184,7 @@ Resources:
         - 
           Key: "Name"
           Value:
-            !Sub "${pOrganization}-${pApplication}-${pEnvironment}-example"
+            !Sub "${pOrganization}-${pApplication}-${pEnvironment}-portal"
         - 
           Key: "iapp-organization"
           Value: 
@@ -461,8 +461,6 @@ Resources:
     DependsOn:
       - rRestApi
       - rWAF
-      - rGetLambdaApi1PermissionStage 
-      - rReptLambdaApi1PermissionStage
     Type: AWS::WAFv2::WebACLAssociation
     Condition: IsExternalEndpoint
     Properties: 
@@ -597,7 +595,7 @@ Resources:
                   - ReleaseLvl
       Environment:
         Variables:
-          PORTAL_ENV_VAR: "Hello there"
+          ENV_VAR: "Hello there"
           DOMAIN: 
             Ref: pDomainName
           DB_TABLE_NAME:
