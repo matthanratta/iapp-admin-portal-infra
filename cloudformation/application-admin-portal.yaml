@@ -90,13 +90,6 @@ Resources:
         Component: !Ref pComponent
         Application: !Ref pApplication 
 Outputs:
-  ApplicationURL:
-    Description: Application URL for Prod environment
-    Value:
-      Fn::If:
-        - HasCustomDomainName
-        - Fn::Sub: https://${pDomainName}-${pEnvironment}.${AWS::Region}.amazonaws.com/${pStageName}/
-        - Fn::Sub: https://${rApp.Id}.${AWS::Region}.amazonaws.com/${pStageName}/
   AppId:
     Description: The AppConfig ID for the registered application
     Value: !GetAtt rApp.Id
@@ -108,3 +101,15 @@ Outputs:
   SourceCode:
     Description: The location of the source code for this CFT
     Value: !Ref pSourceCodeURL 
+  ApplicationURL:
+    Description: Application URL for Prod environment
+    Value: !Join
+     - ""
+     - - "http://"
+       - !GetAtt rApp.Id
+         - WebServerInstance
+         - PublicIp
+      # Fn::If:
+      #   - HasCustomDomainName
+      #   - Fn::Sub: https://${pDomainName}-${pEnvironment}.${AWS::Region}.amazonaws.com/${pStageName}/
+      #   - Fn::Sub: https://${rApp.Id}.${AWS::Region}.amazonaws.com/${pStageName}/
