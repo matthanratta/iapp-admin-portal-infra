@@ -90,6 +90,13 @@ Resources:
         Component: !Ref pComponent
         Application: !Ref pApplication 
 Outputs:
+  ApplicationURL:
+    Description: Application URL for Prod environment
+    Value:
+      Fn::If:
+        - HasCustomDomainName
+        - Fn::Sub: https://${pDomainName}-${pEnvironment}.${AWS::Region}.amazonaws.com/${pStageName}/
+        - Fn::Sub: https://${rApp.Id}.${AWS::Region}.amazonaws.com/${pStageName}/
   AppId:
     Description: The AppConfig ID for the registered application
     Value: !GetAtt rApp.Id
