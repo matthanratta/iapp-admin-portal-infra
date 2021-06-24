@@ -105,9 +105,9 @@ Outputs:
     Description: Application URL for Prod environment
     Value: !Join
      - ""
-     - - "http://"
+     - - "https://iapp."
        - !GetAtt rApp.Id
-       - "utilityportal"
+       - ".utilityportal.org"
          # - WebServerInstance
          # - PublicIp
       # Fn::If:
