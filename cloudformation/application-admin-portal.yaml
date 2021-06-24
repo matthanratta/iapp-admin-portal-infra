@@ -107,8 +107,9 @@ Outputs:
      - ""
      - - "http://"
        - !GetAtt rApp.Id
-         - WebServerInstance
-         - PublicIp
+       - "utilityportal"
+         # - WebServerInstance
+         # - PublicIp
       # Fn::If:
       #   - HasCustomDomainName
       #   - Fn::Sub: https://${pDomainName}-${pEnvironment}.${AWS::Region}.amazonaws.com/${pStageName}/
