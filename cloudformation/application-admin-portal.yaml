@@ -105,7 +105,7 @@ Outputs:
     Description: Application URL for Prod environment
     Value: !Join
      - ""
-     - - "https://iapp."
+     - - "https://${pDomainName}-${pEnvironment}."
        - !GetAtt rApp.Id
        - ".utilityportal.org"
          # - WebServerInstance
