@@ -104,10 +104,10 @@ Outputs:
   ApplicationURL:
     Description: Application URL for Prod environment
     Value: !Join
-     - ""
-     - - "https://${pDomainName}-${pEnvironment}."
+     - ''
+     - - 'https://iapp.'
        - !GetAtt rApp.Id
-       - ".utilityportal.org"
+       - '.utilityportal.org'
          # - WebServerInstance
          # - PublicIp
       # Fn::If:
