@@ -66,7 +66,7 @@ Parameters:
     MaxLength: 80    
     Default: ${{ iapp.pipeline.release_vrs }}
   pArtifactRepoName:
-    Description: 'The name of the artifacvt repository (S3 Bucket) where the artifact is stored.'
+    Description: 'The name of the artifact repository (S3 Bucket) where the artifact is stored.'
     Type: String 
     Default: iapp-artifacts-repository
   pArtifactName:

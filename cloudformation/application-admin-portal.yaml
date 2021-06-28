@@ -105,7 +105,7 @@ Resources:
         Application: !Ref pApplication 
   rS3Bucket:
     Type: AWS::S3::Bucket
-    DeletionPolicy: Delete
+    DeletionPolicy: Retain
     Metadata:
       Comment: 'Bucket to store the web portal content'
     Properties:
@@ -117,12 +117,12 @@ Resources:
           - ServerSideEncryptionByDefault: 
               SSEAlgorithm: AES256
       BucketName: 
-        !Sub ${pOrganization}-${pApplication}-${pEnvironment}-admin-portal
+        !Sub ${pOrganization}-${pApplication}-${pEnvironment}
       Tags: 
         - 
           Key: "Name"
           Value:
-            !Sub ${pApplication}-${pEnvironment}-admin-portal
+            !Sub ${pApplication}-${pEnvironment}
         - 
           Key: "iapp-organization"
           Value: 
@@ -264,16 +264,3 @@ Outputs:
   CfDistributionDomainName:
     Description: 'Domain name for our cloudfront distribution'
     Value: !GetAtt rCfDistribution.DomainName
-  # ApplicationURL:
-  #   Description: Application URL for Prod environment
-  #   Value: !Join
-  #    - ''
-  #    - - 'https://'
-  #      - !GetAtt rApp.Id
-  #      - '.utilityportal.org'
-         # - WebServerInstance
-         # - PublicIp
-      # Fn::If:
-      #   - HasCustomDomainName
-      #   - Fn::Sub: https://${pDomainName}-${pEnvironment}.${AWS::Region}.amazonaws.com/${pStageName}/
-      #   - Fn::Sub: https://${rApp.Id}.${AWS::Region}.amazonaws.com/${pStageName}/
