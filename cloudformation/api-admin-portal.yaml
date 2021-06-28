@@ -109,7 +109,7 @@ Parameters:
     AllowedValues:
       - 'true'
       - 'false' 
-    Default: 'false' 
+    Default: 'true' 
 Mappings: 
   LkpReleaseLvl: 
     sandbox: 
