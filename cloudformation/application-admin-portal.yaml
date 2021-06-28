@@ -69,7 +69,7 @@ Parameters:
     Default: 'us-east-1_xnWubxCLi'   
   pDomainName:
     Description: Domain name
-    Default: 'utilityportal.iapp.org'
+    Default: ''
     Type: String
   pAcmCertArn:
     Description: Acm Certificate Arn
