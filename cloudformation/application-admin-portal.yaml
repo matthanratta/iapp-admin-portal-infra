@@ -184,8 +184,11 @@ Resources:
             Effect: 'Allow'
             Principal:
               CanonicalUser: !GetAtt rCfOriginAccessIdentity.S3CanonicalUserId
-            Resource:
-              - !Sub 'arn:aws:s3:::${rS3Bucket}/*'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref iapp-admin-portal-sandbox
+                - /*
   rCfDistribution:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
