@@ -28,3 +28,4 @@ code:
 queue:
   - application-admin-portal.yaml
   - api-admin-portal.yaml
+  - web-admin-portal.yaml
