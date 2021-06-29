@@ -95,12 +95,12 @@ Resources:
           - ServerSideEncryptionByDefault: 
               SSEAlgorithm: AES256
       BucketName: 
-        !Sub ${pOrganization}-${pApplication}-${pEnvironment}-portal
+        !Sub ${pOrganization}-${pApplication}-${pEnvironment}
       Tags: 
         - 
           Key: "Name"
           Value:
-            !Sub ${pApplication}-${pEnvironment}-portal
+            !Sub ${pApplication}-${pEnvironment}
         - 
           Key: "iapp-organization"
           Value: 
