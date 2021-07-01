@@ -174,7 +174,6 @@ Resources:
       DistributionConfig:
         Comment: 'A distribution for the IAPP Utility Portal used for various internal-use applications'
         Aliases:
-        - !Ref 'AlternateDomainNames'
         - Fn::If:
           - HasCustomDomainName
           - !Sub "${pEnvironment}-${pDomainName}"
