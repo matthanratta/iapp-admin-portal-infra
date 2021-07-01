@@ -74,10 +74,6 @@ Parameters:
     Description: Acm Certificate Arn
     Default: 'arn:aws:acm:us-east-1:298049552655:certificate/d6bc89eb-dc5c-42f3-b285-450b3926be01'
     Type: String
-  AlternateDomainNames:
-    Description:    CNAMEs (alternate domain names), if any, for the distribution. Example. mydomain.com
-    Type:           String
-    Default:        "iapp.org"
 Conditions:
   HasCustomDomainName:
     Fn::Not:
@@ -235,6 +231,3 @@ Outputs:
   CfDistributionDomainName:
     Description: 'Domain name for our cloudfront distribution'
     Value: !GetAtt rCfDistribution.DomainName
-  AlternateDomainNames:
-    Description: "Alternate Domain Names (CNAME)"
-    Value:       !Ref 'AlternateDomainNames'
