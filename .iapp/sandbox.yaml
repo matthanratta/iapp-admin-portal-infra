@@ -1,6 +1,6 @@
 pipeline:
   release_lvl: pre-alpha
-  release_vrs: v0.0.23
+  release_vrs: v0.0.25
 aws:
   # (Required) The AWS region to use
   region: us-east-1
@@ -8,5 +8,5 @@ aws:
   account: 759021155229
   # (Required) The name of the environment to use
   environment: sandbox
-  # (Required) The name of the domain, (e.g.: admin-portal-api). Leave blank if no custom domain name is needed.
+  # (Required) The name of the domain, (e.g.: utility-portal-api). Leave blank if no custom domain name is needed.
   domain: ''

@@ -8,5 +8,5 @@ aws:
   account: 237529788575
   # (Required) The name of the environment to use
   environment: production
-  # (Required) The name of the domain, (e.g.: admin-portal-api). Leave blank if no custom domain name is needed.
+  # (Required) The name of the domain, (e.g.: utility-portal-api). Leave blank if no custom domain name is needed.
   domain: ''

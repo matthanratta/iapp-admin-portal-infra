@@ -13,7 +13,7 @@ catalog:
   # (Required) The name of the product that identifies its applications and components
   product: myportfolio
   # (Required) The name of the application (or service module) that identifies its components
-  application: admin-portal
+  application: utility-portal
   # (Optional) The name of the component that aligns with the application or service module
   component: infrastructure
   # (Required) The name of the department that owns the resource
@@ -26,6 +26,6 @@ code:
   sourcecode_url: https://github.com/PrivacyAssociation/iapp-admin-portal-infra
 # (Optional) A list (array) of template files (including extension) to build and deploy in the order specified
 queue:
-  - application-admin-portal.yaml
-  - api-admin-portal.yaml
-  - web-admin-portal.yaml
+  - application-utility-portal.yaml
+  - api-utility-portal.yaml
+  - web-utility-portal.yaml
