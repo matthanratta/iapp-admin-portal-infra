@@ -68,7 +68,7 @@ Parameters:
     Default: 'us-east-1_xnWubxCLi'
   pDomainName:
     Description: Domain name
-    Default: 'iapp.org'
+    Default: ''
     Type: String
   pAcmCertArn:
     Description: Acm Certificate Arn
