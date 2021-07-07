@@ -1,0 +1,175 @@
+Description: MSK Cluster with all properties
+Parameters:
+  InstanceTypeParameter:
+    Type: String
+    Default: kafka.t3.small
+    AllowedValues:
+      - kafka.t3.small
+      - kafka.m5.large
+    Description: Enter kafka.t3.small or kafka.m5.large. Default is kafka.m5.large.  
+  BrokerNodesParameter: 
+    Default: 2
+    Description: total number of broker nodes on the MSK cluster
+    Type: Number
+    MinValue: 2
+    MaxValue: 2
+  # pOrganization:
+  #   Description: The name of the portfolio that identifies its products, applications, and components
+  #   Type: String
+  #   MinLength: 1
+  #   MaxLength: 30
+  #   AllowedPattern: '[a-zA-Z0-9\-]*'
+  #   Default: ${{ iapp.catalog.organization }}
+  # pPortfolio:
+  #   Description: The name of the portfolio that identifies its products, applications, and components
+  #   Type: String
+  #   MinLength: 1
+  #   MaxLength: 15
+  #   AllowedPattern: '[a-zA-Z0-9\-]*'
+  #   Default: ${{ iapp.catalog.portfolio }}
+  # pProduct:
+  #   Description: The name of the product that identifies its applications and components
+  #   Type: String
+  #   MinLength: 1
+  #   MaxLength: 15
+  #   AllowedPattern: '[a-zA-Z0-9\-]*'
+  #   Default: ${{ iapp.catalog.product }}
+  # pApplication:
+  #   Description: The name of the application (or service module) that identifies its components
+  #   Type: String
+  #   MinLength: 1
+  #   MaxLength: 15
+  #   AllowedPattern: '[a-zA-Z0-9\-]*'
+  #   Default: ${{ iapp.catalog.application }}
+  # pComponent:
+  #   Description: The name of the component that aligns with the application or service module
+  #   Type: String
+  #   MinLength: 0
+  #   MaxLength: 15
+  #   AllowedPattern: '[a-zA-Z0-9\-]*'
+  #   Default: ${{ iapp.catalog.component }}
+  # pDepartment:
+  #   Description: The name of the department that owns the resource
+  #   Type: String
+  #   MinLength: 1
+  #   MaxLength: 15
+  #   AllowedPattern: '[a-zA-Z0-9\-]*'
+  #   Default: ${{ iapp.catalog.department }}
+  # pEnvironment:
+  #   Description: 'The name of the environment in which the resource is running (e.g.: sandbox, development, test, production)'
+  #   Type: String
+  #   MinLength: 1
+  #   MaxLength: 15
+  #   AllowedPattern: '[a-zA-Z0-9\-]*'
+  #   Default: ${{ iapp.aws.environment }}
+  # pSupportEmail:
+  #   Description: The email address of the support team to contact
+  #   Type: String
+  #   MinLength: 8
+  #   MaxLength: 30
+  #   AllowedPattern: (?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])
+  #   Default: ${{ iapp.catalog.support_email }}
+  # pReleaseTag:
+  #   Description: 'The name of the release to pull the code from'
+  #   Type: String
+  #   MinLength: 1
+  #   MaxLength: 80    
+  #   Default: ${{ iapp.pipeline.release_vrs }}
+  # pArtifactRepoName:
+  #   Description: 'The name of the artifact repository (S3 Bucket) where the artifact is stored.'
+  #   Type: String 
+  #   Default: iapp-artifacts-repository
+  # pArtifactName:
+  #   Description: 'The name of the artifact that is the source code for the functions, (e.g.: utility-portal_serverless.zip)'
+  #   Type: String
+  #   MinLength: 1
+  #   MaxLength: 80
+  #   Default: 'utility-portal_serverless.zip'
+Mappings:
+  RegionMap:
+    us-east-1:
+      AMI: ami-76f0061f
+    us-west-1:
+      AMI: ami-655a0a20
+    eu-west-1:
+      AMI: ami-7fd4e10b
+    ap-southeast-1:
+      AMI: ami-72621c20
+    ap-northeast-1:
+      AMI: ami-8e08a38f
+Resources:
+  MSK-cluster-template:
+    Type: 'AWS::MSK::Cluster'
+    Properties:
+      ClusterName: ClusterWithAllProperties
+      KafkaVersion: 2.2.1
+      NumberOfBrokerNodes: Ref: BrokerNodesParameter
+      # EnhancedMonitoring: PER_BROKER
+      # EncryptionInfo:
+      #   EncryptionAtRest:
+      #     DataVolumeKMSKeyId: ReplaceWithKmsKeyArn
+      #   EncryptionInTransit:
+      #     ClientBroker: TLS
+      #     InCluster: true
+      # OpenMonitoring:
+      #   Prometheus:
+      #     JmxExporter:
+      #       EnabledInBroker: "true"
+      #     NodeExporter:
+      #       EnabledInBroker: "true"
+      # ConfigurationInfo:
+      #   Arn: ReplaceWithConfigurationArn
+      #   Revision: 1
+      # ClientAuthentication:
+      #   Tls:
+      #     CertificateAuthorityArnList:
+      #       - ReplaceWithCAArn
+      BrokerNodeGroupInfo:
+        BrokerAZDistribution: DEFAULT
+        InstanceType: Ref: InstanceTypeParameter
+        SecurityGroups:
+          - sg-064dd984a03b443b0
+        StorageInfo:
+          EBSStorageInfo:
+            VolumeSize: 100
+        ClientSubnets:
+          - subnet-083734876a9fbcc68
+          - subnet-0905f8372cef6e617
+      Tags:
+        Environment: sandbox  
+        # - 
+        #   Key: "Name"
+        #   Value:
+        #     !Sub "${pOrganization}-${pApplication}-${pEnvironment}-api-usageplan"
+        # - 
+        #   Key: "iapp-organization"
+        #   Value: 
+        #     !Ref pOrganization
+        # - 
+        #   Key: "iapp-portfolio"
+        #   Value: 
+        #     !Ref pPortfolio
+        # - 
+        #   Key: "iapp-product"
+        #   Value: 
+        #     !Ref pProduct
+        # - 
+        #   Key: "iapp-application"
+        #   Value: 
+        #     !Ref pApplication
+        # - 
+        #   Key: "iapp-component"
+        #   Value:
+        #     !Ref pComponent
+        # - 
+        #   Key: "iapp-department"
+        #   Value:
+        #     !Ref pDepartment
+        # - 
+        #   Key: "iapp-environment"
+        #   Value:
+        #     !Ref pEnvironment
+        # - 
+        #   Key: "iapp-support-email"
+        #   Value:
+        #     !Ref pSupportEmail 
